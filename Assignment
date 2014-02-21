@@ -25,6 +25,7 @@ public class Assignment implements Event {
         time = new Time(0,0,0);
         name = "empty";
         description = "empty";
+        completed = false;
     }
     
     public Assignment(Date datein, Time timein, String namein, String descin) {
