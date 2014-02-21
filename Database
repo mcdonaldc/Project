@@ -1,0 +1,63 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package backend;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author diehl
+ */
+public class Database {
+    private ArrayList<Assignment> database;
+    
+    public Database(){
+        database = new ArrayList();
+        
+    }
+    
+    public void loadDB(){
+        
+    }
+    
+    public void saveDB(){
+        
+    }
+    
+    public void addAssignment(Assignment assignment){
+        database.add(assignment);
+    }
+    
+    public Assignment getAssignment(Assignment assignment){
+        if(isMatchAssignment(assignment))
+        {
+            return assignment;
+        }
+    }
+    
+    public void deleteAssignment(Assignment assignment){
+        if(isMatchAssignment.assignment)
+        {
+            database.remove(assignment);
+        }
+    }
+    
+    private boolean isMatchAssignment(Assignment assignment){
+        
+        for(Assignment a: database)
+        {
+            if(assignment == a)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    
+    
+}
