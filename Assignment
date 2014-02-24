@@ -14,10 +14,10 @@ import java.util.Objects;
  */
 public class Assignment implements Event {
     
-    private Date date;
-    private Time time;
-    private String name;
-    private String description;
+    public Date date;
+    public Time time;
+    public String name;
+    public String description;
     private boolean completed;
     
     public Assignment() {
