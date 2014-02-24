@@ -4,12 +4,14 @@
  */
 package backend;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
-/**
- *
- * @author diehl
- */
+
 public class Database {
     private ArrayList<Assignment> database;
     
@@ -24,7 +26,33 @@ public class Database {
     
     public void saveDB(){
         
+    	BufferedWriter writer = null;
+    	
+    	try{
+    		writer = new BufferedWriter(new OutputStreamWriter(
+    				new FileOutputStream("AssignmentDatabase.txt"), "utf-8"));
+    		
+    		for(Assignment a: database){
+    			writer.write(a.name + "/" + a.date+ "/"+a.time+ "/"+a.description+"\n");
+    			
+    		}
+    		
+    	}
+    	catch(IOException ex) {
+    			//do something to cover the exception
+    	}
+    	finally {
+    		try{
+    			writer.close();
+    		}
+    		catch (Exception ex)
+    		{
+    			//do something
+    		}
+    	}
     }
+    	
+    
     
     public void addAssignment(Assignment assignment){
         database.add(assignment);
@@ -38,7 +66,7 @@ public class Database {
     }
     
     public void deleteAssignment(Assignment assignment){
-        if(isMatchAssignment.assignment)
+        if(isMatchAssignment(assignment))
         {
             database.remove(assignment);
         }
