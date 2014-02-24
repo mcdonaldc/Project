@@ -4,25 +4,89 @@
  */
 package backend;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 
-public class Database {
+public class AssignmentDatabase {
     private ArrayList<Assignment> database;
+    private BufferedReader inputStream = null;
+    private StringBuilder cleaner = new StringBuilder();
     
-    public Database(){
+    public AssignmentDatabase(){
         database = new ArrayList();
         
     }
     
-    public void loadDB(){
+    public void loadDB(String filename) throws FileNotFoundException, IOException {
         
-    }
+            inputStream = new BufferedReader(new FileReader(filename));
+            String in;
+
+            in = inputStream.readLine();
+            
+            while (in != null) {
+                Date datein = new Date(0,0,0);
+                Time timein = new Time(0,0,0);
+                String namein = "empty";
+                String descin = "empty";
+                String out;
+                cleaner.append(in);
+                
+                for(int counter = 0; counter < 4; counter++) {
+                    if (counter < 3) {
+                        int cut = cleaner.indexOf("/");
+                        out = cleaner.substring(0, cut);
+                        cleaner.delete(0, cut+1);
+                    } else {
+                        out = cleaner.substring(0);
+                        cleaner.delete(0, cleaner.length());
+                    }
+                   
+                    
+                    System.out.println(out);
+
+                    switch(counter){
+                        case 0:
+                            namein = out;
+                            break;
+                        case 1:
+                            int years = Integer.parseInt(out.substring(0, 4));
+                            int month = Integer.parseInt(out.substring(4, 6));
+                            int day = Integer.parseInt(out.substring(6, 8));
+                            System.out.println(years);
+                            System.out.println(month);
+                            System.out.println(day);
+                            datein = new Date(years, month, day);
+                            break;
+                        case 2:
+                            int hours = Integer.parseInt(out.substring(0, 2));
+                            int minutes = Integer.parseInt(out.substring(2, 4));
+                            int seconds = Integer.parseInt(out.substring(4, 6));
+                            timein = new Time(hours, minutes, seconds);
+                            break;
+                        case 3:
+                            descin = out;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
+                database.add(new Assignment(datein, timein, namein, descin));
+                
+                in = inputStream.readLine();
+            }
+}
     
     public void saveDB(){
         
@@ -33,13 +97,15 @@ public class Database {
     				new FileOutputStream("AssignmentDatabase.txt"), "utf-8"));
     		
     		for(Assignment a: database){
-    			writer.write(a.name + "/" + a.date+ "/"+a.time+ "/"+a.description+"\n");
+    			writer.write(a.getName() + "/" + a.getDate().getYear() + a.getDate().getMonth() + a.getDate().getDate() +
+                                "/" + a.getTime().getHours() + a.getTime().getMinutes() + a.getTime().getSeconds() +
+                                "/" + a.getDescription() + "\n");
     			
     		}
     		
     	}
     	catch(IOException ex) {
-    			//do something to cover the exception
+    			System.out.println("Caught an IOException");
     	}
     	finally {
     		try{
@@ -47,7 +113,7 @@ public class Database {
     		}
     		catch (Exception ex)
     		{
-    			//do something
+    			System.out.println("Caught an IOException");
     		}
     	}
     }
@@ -61,8 +127,13 @@ public class Database {
     public Assignment getAssignment(Assignment assignment){
         if(isMatchAssignment(assignment))
         {
-            return assignment;
+            return database.get(getIndex(assignment));
         }
+        return null;
+    }
+    
+    public Assignment getAssignment(int num){
+        return database.get(num);
     }
     
     public void deleteAssignment(Assignment assignment){
@@ -80,12 +151,19 @@ public class Database {
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
+        return false;
     }
     
-    
+    private int getIndex(Assignment assignment){
+        
+        for(Assignment a: database)
+        {
+            if(assignment == a)
+            {
+                return database.indexOf(a);
+            }
+        }
+        return 0;
+    }  
 }
