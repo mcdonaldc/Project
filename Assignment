@@ -14,10 +14,10 @@ import java.util.Objects;
  */
 public class Assignment implements Event {
     
-    public Date date;
-    public Time time;
-    public String name;
-    public String description;
+    private Date date;
+    private Time time;
+    private String name;
+    private String description;
     private boolean completed;
     
     public Assignment() {
@@ -25,7 +25,6 @@ public class Assignment implements Event {
         time = new Time(0,0,0);
         name = "empty";
         description = "empty";
-        completed = false;
     }
     
     public Assignment(Date datein, Time timein, String namein, String descin) {
@@ -80,6 +79,8 @@ public class Assignment implements Event {
         int hash = 3;
         hash = 19 * hash + Objects.hashCode(this.date);
         hash = 19 * hash + Objects.hashCode(this.time);
+        hash = 19 * hash + Objects.hashCode(this.name);
+        hash = 19 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
