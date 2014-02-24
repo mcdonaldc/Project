@@ -1,0 +1,96 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package backend;
+
+import backend.Assignment;
+import java.sql.Time;
+import java.util.Date;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+
+/**
+ *
+ * @author hilaryreis
+ */
+public class AssignmentTest {
+    
+    @Test
+    public void TestAssignment(){
+        Assignment a1 = new Assignment();
+        assertEquals("empty", a1.getName());
+        assertEquals("empty", a1.getDescription());
+        assertEquals(false, a1.isCompleted());
+    }
+    
+    @Test
+    public void TestAssignment2(){
+        Date d = new Date(2014,2,26);
+        Time t = new Time(13,10,0);
+        Assignment a2 = new Assignment(d, t, "essay", "write paper on decorator pattern");
+        
+        assertEquals(d, a2.getDate());
+        assertEquals(2014, a2.getDate().getYear());
+        assertEquals(2, a2.getDate().getMonth());
+        assertEquals(26, a2.getDate().getDate());
+        
+        assertEquals(t, a2.getTime());
+        
+        assertEquals("essay", a2.getName());
+        assertEquals("write paper on decorator pattern", a2.getDescription());
+        assertEquals(false, a2.isCompleted());
+    }
+    
+    @Test
+    public void isCompletedTest(){
+        Assignment a3 = new Assignment();
+        a3.setCompleted(true);
+        assertEquals(true, a3.isCompleted());
+    }
+    
+    @Test 
+    public void setDateTest(){
+        Date d = new Date(2014,2,26);
+        Time t = new Time(13,10,0);
+        Assignment a4 = new Assignment(d, t, "essay", "write paper on decorator pattern");
+        
+        Date d1 = new Date(2014,2,28);
+        a4.setDate(d1);
+        assertEquals(2014, a4.getDate().getYear());
+        assertEquals(2, a4.getDate().getMonth());
+        assertEquals(28, a4.getDate().getDate());
+    }
+    
+    @Test
+    public void setTimeTest(){
+        Date d = new Date(2014,2,26);
+        Time t = new Time(13,10,0);
+        Assignment a5 = new Assignment(d, t, "essay", "write paper on decorator pattern");
+        
+        Time t1 = new Time(2,20,0);
+        a5.setTime(t1);
+        assertEquals(t1, a5.getTime());   
+    }
+    
+    @Test
+    public void setNameTest(){
+        Date d = new Date(2014,2,26);
+        Time t = new Time(13,10,0);
+        Assignment a6 = new Assignment(d, t, "essay", "write paper on decorator pattern");
+        
+        a6.setName("paper");
+        assertEquals("paper", a6.getName());     
+    }
+    
+    @Test
+    public void setDescriptionTest(){
+        Date d = new Date(2014,2,26);
+        Time t = new Time(13,10,0);
+        Assignment a7 = new Assignment(d, t, "essay", "write paper on decorator pattern");
+        
+        a7.setDescription("write paper on observer pattern");
+        assertEquals("write paper on observer pattern", a7.getDescription()); 
+    }  
+}
