@@ -1,1 +1,5 @@
-Event/20140224/121212/Event thing
+Event/2014|02|24/12|12|12/Event thing
+Name/Year|Month|Day/Hours|Minutes|Seconds/Description
+
+This is the new format.
+Through debugging, I found that the old format was inflexible.
