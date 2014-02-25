@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -31,18 +32,23 @@ public class AssignmentDatabase {
         
             inputStream = new BufferedReader(new FileReader(filename));
             String in;
-
+            
+            //Reads in 1st line
             in = inputStream.readLine();
             
             while (in != null) {
+                //Creates Dummy variables to store data
                 Date datein = new Date(0,0,0);
                 Time timein = new Time(0,0,0);
                 String namein = "empty";
                 String descin = "empty";
                 String out;
+                
+                //add input string to StringBuffer.
                 cleaner.append(in);
                 
                 for(int counter = 0; counter < 4; counter++) {
+                    //cut the string up at the slashes.
                     if (counter < 3) {
                         int cut = cleaner.indexOf("/");
                         out = cleaner.substring(0, cut);
@@ -52,55 +58,75 @@ public class AssignmentDatabase {
                         cleaner.delete(0, cleaner.length());
                     }
                    
-                    
                     System.out.println(out);
 
                     switch(counter){
                         case 0:
+                            //case for the name field.
+                            //Just store it.
                             namein = out;
                             break;
                         case 1:
-                            int years = Integer.parseInt(out.substring(0, 4));
-                            int month = Integer.parseInt(out.substring(4, 6));
-                            int day = Integer.parseInt(out.substring(6, 8));
-                            System.out.println(years);
-                            System.out.println(month);
-                            System.out.println(day);
+                            //case for the date field
+                            //break dates at the lines...
+                            int break1 = out.indexOf("|");
+                            int break2 = out.lastIndexOf("|");
+                            
+                            //then convert them to integers...
+                            int years = Integer.parseInt(out.substring(0, break1));
+                            int month = Integer.parseInt(out.substring(break1 + 1, break2));
+                            int day = Integer.parseInt(out.substring(break2 + 1, out.length()));
+
+                            //and store them...
                             datein = new Date(years, month, day);
                             break;
                         case 2:
-                            int hours = Integer.parseInt(out.substring(0, 2));
-                            int minutes = Integer.parseInt(out.substring(2, 4));
-                            int seconds = Integer.parseInt(out.substring(4, 6));
+                            //case for the time field.
+                            //pretty much the same as the date field.
+                            int break3 = out.indexOf("|");
+                            int break4 = out.lastIndexOf("|");
+                            
+                            int hours = Integer.parseInt(out.substring(0, break3));
+                            int minutes = Integer.parseInt(out.substring(break3 + 1, break4));
+                            int seconds = Integer.parseInt(out.substring(break4 + 1, out.length()));
+                            
                             timein = new Time(hours, minutes, seconds);
                             break;
                         case 3:
+                            //case for the description
+                            //just add the string in.
                             descin = out;
                             break;
                         default:
                             break;
                     }
                 }
-                
+                //Take all four values and stick them in the database.
                 database.add(new Assignment(datein, timein, namein, descin));
                 
+                //read the next line and repeat the loop until the file's fully read.
                 in = inputStream.readLine();
             }
+            inputStream.close();
 }
     
     public void saveDB(){
         
     	BufferedWriter writer = null;
+        String out;
     	
     	try{
     		writer = new BufferedWriter(new OutputStreamWriter(
     				new FileOutputStream("AssignmentDatabase.txt"), "utf-8"));
     		
+                //This will write out the entire assignment in the format
+                // "Name/Year|Month|Day/Hours|Minutes|Seconds/Description" 
     		for(Assignment a: database){
-    			writer.write(a.getName() + "/" + a.getDate().getYear() + a.getDate().getMonth() + a.getDate().getDate() +
-                                "/" + a.getTime().getHours() + a.getTime().getMinutes() + a.getTime().getSeconds() +
-                                "/" + a.getDescription() + "\n");
-    			
+    			writer.write(a.getName() + "/" + (a.getDate().getYear() + 1900) + "|"
+                                + a.getDate().getMonth() + "|" + a.getDate().getDate() + "/"
+                                + a.getTime().getHours() + "|" + a.getTime().getMinutes() + "|"
+                                + a.getTime().getSeconds() + "/" + a.getDescription());
+                        writer.newLine();	
     		}
     		
     	}
@@ -147,7 +173,7 @@ public class AssignmentDatabase {
         
         for(Assignment a: database)
         {
-            if(assignment == a)
+            if(assignment.equals(a))
             {
                 return true;
             }
@@ -159,7 +185,7 @@ public class AssignmentDatabase {
         
         for(Assignment a: database)
         {
-            if(assignment == a)
+            if(assignment.equals(a))
             {
                 return database.indexOf(a);
             }
