@@ -79,8 +79,6 @@ public class Assignment implements Event {
         int hash = 3;
         hash = 19 * hash + Objects.hashCode(this.date);
         hash = 19 * hash + Objects.hashCode(this.time);
-        hash = 19 * hash + Objects.hashCode(this.name);
-        hash = 19 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
