@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class AssignmentDatabase {
+public class Database {
     private ArrayList<Assignment> database;
     private BufferedReader inputStream = null;
     private StringBuilder cleaner = new StringBuilder();
     
-    public AssignmentDatabase(){
+    public Database(){
         database = new ArrayList();
         
     }
