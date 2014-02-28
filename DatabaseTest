@@ -6,6 +6,8 @@ package backend;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Time;
+import java.util.Date;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +28,7 @@ public class DatabaseTest {
         Database instance = new Database();
         instance.loadDB(null);
         // TODO review the generated test code and remove the default call to fail.
-        fail("This method has not been implemented OH NOOO.");
+       // fail("This method has not been implemented OH NOOO.");
     }
 
     /**
@@ -80,14 +82,21 @@ public class DatabaseTest {
     @Test
     public void testDeleteAssignment() {
         System.out.println("deleteAssignment");
-        boolean containsAssignment = true;
         Database d = new Database();
-        Assignment a = new Assignment();
-        Assignment b = new Assignment();
+        Assignment a = new Assignment(new Date(0000,00,00), new Time(00,00,00),"EventTest1", "EventDescTest1");
+        Assignment b = new Assignment(new Date(0001,00,00), new Time(01,00,00),"EventTest2", "EventDescTest2");
+        
+        assertFalse(d.isMatchAssignment(a));
         d.addAssignment(a);
+        
+        assertFalse(d.isMatchAssignment(b));
         d.addAssignment(b);
         
+        
+        assertTrue(d.isMatchAssignment(a));
+        
         d.deleteAssignment(a);
+        
         assertEquals(null, d.getAssignment(a));
         assertEquals(b, d.getAssignment(b));
     }
