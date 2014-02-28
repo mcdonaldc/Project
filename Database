@@ -23,6 +23,9 @@ public class Database {
     private BufferedReader inputStream = null;
     private StringBuilder cleaner = new StringBuilder();
     
+    //NEEDS WORK: We need to change the use of an arraylist to a hashset, and hash by date and time so that assignments
+    //              are in the correct chronological order
+    
     public Database(){
         database = new ArrayList();
         
