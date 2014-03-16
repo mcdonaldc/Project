@@ -7,9 +7,9 @@
                 System.out.println("Assignment name already exists.");
                 bool = false;
             }
+        }
             
-            if (bool) {
+        if (bool) {
                 database.add(assignment);
             }
-        }
     }
