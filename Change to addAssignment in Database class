@@ -1,0 +1,15 @@
+    public void addAssignment(Assignment assignment){
+        
+        boolean bool = true;
+        
+        for (Assignment a : database) {
+            if (a.getName().equals(assignment.getName())) {
+                System.out.println("Assignment name already exists.");
+                bool = false;
+            }
+            
+            if (bool) {
+                database.add(assignment);
+            }
+        }
+    }
