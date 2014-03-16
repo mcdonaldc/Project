@@ -111,6 +111,7 @@ public class Database {
                 in = inputStream.readLine();
             }
             inputStream.close();
+           
 }
     
     public void saveDB(){
@@ -118,9 +119,10 @@ public class Database {
     	BufferedWriter writer = null;
         String out;
     	
+        System.out.println("This is a thing.");
     	try{
     		writer = new BufferedWriter(new OutputStreamWriter(
-    				new FileOutputStream("AssignmentDatabase.txt"), "utf-8"));
+    				new FileOutputStream("Database.txt"), "utf-8"));
     		
                 //This will write out the entire assignment in the format
                 // "Name/Year|Month|Day/Hours|Minutes|Seconds/Description" 
@@ -145,6 +147,7 @@ public class Database {
     			System.out.println("Caught an IOException");
     		}
     	}
+        System.out.println("This is also a thing.");
     }
     	
     
@@ -195,4 +198,5 @@ public class Database {
         }
         return 0;
     }  
+    
 }
